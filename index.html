@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue.js 範例目錄</title>
+  <style>
+    /* 基礎重置 */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background-color: #FFFDE7; /* 可愛奶油黃背景 */
+    }
+
+    /* 左側側邊欄設定 */
+    .sidebar {
+      width: 300px;
+      background-color: #FFF9C4; /* 淺檸檬黃側邊欄 */
+      color: #5D4037;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    /* 側邊欄頭部 (標題與學號) */
+    .sidebar-header {
+      padding: 30px 20px;
+      text-align: center;
+      border-bottom: 2px solid #F0F4C3;
+    }
+
+    .sidebar-header h2 {
+      color: #FFA000; /* 溫暖琥珀橙 */
+      font-size: 24px;
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 0px white;
+    }
+
+    .sidebar-header p {
+      color: #795548;
+      font-size: 16px;
+    }
+
+    /* 選單列表 */
+    .menu-list {
+      list-style: none;
+      overflow-y: auto;
+    }
+
+    .menu-item {
+      padding: 20px 25px;
+      font-size: 15px;
+      cursor: pointer;
+      border-bottom: 1px solid #F0F4C3;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .menu-item:hover {
+      background-color: #FFFDE7;
+      color: #F57C00;
+    }
+
+    .menu-item.active {
+      background-color: #FFEB3B; /* 點擊後的明亮黃 */
+      color: #5D4037;
+      font-weight: bold;
+      border-left: 6px solid #FFA000; /* 加粗橙色線條 */
+      padding-left: 19px;
+    }
+
+    /* 右側內容區 */
+    .content-area {
+      flex: 1;
+      padding: 50px;
+      background-color: #FFFDE7;
+      overflow-y: auto;
+    }
+
+    /* 每一個範例的內容區塊 */
+    .content-section {
+      display: none; /* 預設全部隱藏 */
+      background-color: transparent;
+    }
+
+    /* 只有帶有 active class 的區塊才會顯示 */
+    .content-section.active {
+      display: block; 
+    }
+
+    /* 內容區內的文字樣式 */
+    .content-section h1 {
+      font-size: 32px;
+      color: #FFA000;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .content-section p {
+      font-size: 18px;
+      color: #5D4037;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    /* 按鈕樣式 (配合圖片中的計數按鈕) */
+    button {
+      padding: 10px 25px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #FFD54F;
+      color: #5D4037;
+      border-radius: 12px;
+      font-weight: bold;
+      box-shadow: 0 4px #FBC02D;
+      transition: all 0.1s;
+    }
+    
+    button:hover {
+      background-color: #FFCA28;
+      transform: translateY(2px);
+      box-shadow: 0 2px #FBC02D;
+    }
+
+    button:active {
+      transform: translateY(4px);
+      box-shadow: 0 0px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>Vue.js 範例目錄</h2>
+      <p>學號：413730747</p> 
+    </div>
+    
+    <ul class="menu-list" id="menu">
+      <li class="menu-item active" data-target="ex0">範例一 (ex1) - 我的第一個 Vue 頁面</li>
+      <li class="menu-item" data-target="ex2">範例二 (ex2) - 資料呈現與綁定</li>
+      <li class="menu-item" data-target="ex3">範例三 (ex3) - 事件處理 (methods)</li>
+      <li class="menu-item" data-target="ex4">範例四 (ex4) - 雙向綁定 (v-model)</li>
+      <li class="menu-item" data-target="ex5">範例五 (ex5) - 條件渲染 (v-if)</li>
+      <li class="menu-item" data-target="ex6">範例六 (ex6) - 列表渲染 (v-for)</li>
+      <li class="menu-item" data-target="ex7">範例七 (ex7) - 計算屬性 (computed)</li>
+      <li class="menu-item" data-target="ex8">範例八 (ex8) - 動態樣式與類別 (class & style)</li>
+      <li class="menu-item" data-target="ex9">範例九 (ex9) - 待辦事項清單專案</li>
+    </ul>
+  </aside>
+
+  <main class="content-area">
+    
+    <div id="ex0" class="content-section active">
+      <h1>淡江大學教育科技學系</h1>
+      <p>目前計數：<span id="counter-value">20</span></p>
+      <button id="add-btn">點我 +5</button>
+    </div>
+
+    <div id="ex2" class="content-section">
+      <h1>資料呈現與綁定 (Data Binding)</h1>
+      <p>在這個範例中，我們學習如何使用 `{{ }}` 語法將 JavaScript 中的變數資料，綁定並顯示在 HTML 畫面上。</p>
+      <p>這就是 Vue 響應式系統的基礎！</p>
+    </div>
+
+    <div id="ex3" class="content-section">
+      <h1>事件處理 (methods)</h1>
+      <p>使用 `v-on` 指令（或簡寫為 `@`）來監聽 DOM 事件，例如滑鼠點擊（@click）、鍵盤輸入（@keyup）等。</p>
+      <p>觸發事件後，會執行寫在 methods 裡面的 JavaScript 函數。</p>
+    </div>
+
+    <div id="ex4" class="content-section">
+      <h1>雙向綁定 (v-model)</h1>
+      <p>主要用在表單元素（如 input, select, textarea）。</p>
+      <p>它能夠讓使用者在畫面上輸入的內容，即時同步更新到程式碼中的變數；反之亦然。</p>
+    </div>
+
+    <div id="ex5" class="content-section">
+      <h1>條件渲染 (v-if)</h1>
+      <p>控制元素「要不要出現在畫面上」。</p>
+      <p>使用 `v-if`、`v-else-if`、`v-else` 來根據條件（true 或 false）決定是否渲染該區塊。</p>
+    </div>
+
+    <div id="ex6" class="content-section">
+      <h1>列表渲染 (v-for)</h1>
+      <p>當我們有一個陣列 (Array) 資料時，可以使用 `v-for` 將陣列中的每一筆資料自動產生對應的 HTML 元素，非常適合用來製作清單或表格。</p>
+    </div>
+
+    <div id="ex7" class="content-section">
+      <h1>計算屬性 (computed)</h1>
+      <p>如果一個資料需要經過複雜的計算才能顯示，我們就會用 computed。</p>
+      <p>它最大的優點是「具有快取特性」，只有當相依的原始資料改變時，它才會重新計算，能有效提升效能。</p>
+    </div>
+
+    <div id="ex8" class="content-section">
+      <h1>動態樣式與類別 (class & style)</h1>
+      <p>使用 `v-bind:class` 或 `v-bind:style`，我們可以根據變數的狀態，動態地替換元素的 CSS 樣式。例如：任務完成時，字體自動變成灰色並加上刪除線。</p>
+    </div>
+
+    <div id="ex9" class="content-section">
+      <h1>待辦事項清單專案 (Todo List)</h1>
+      <p>這是 Vue 的經典實戰專案！</p>
+      <p>綜合運用了 v-model (新增任務)、v-for (列出任務)、v-on (刪除/編輯任務)、v-bind:class (標示完成) 以及 computed (計算剩餘未完成數量)。</p>
+    </div>
+
+  </main>
+
+  <script>
+    // 1. 處理左側選單的點擊切換
+    const menuItems = document.querySelectorAll('.menu-item');
+    const contentSections = document.querySelectorAll('.content-section');
+
+    menuItems.forEach(item => {
+      item.addEventListener('click', function() {
+        // 先移除所有選單的 active 狀態
+        menuItems.forEach(m => m.classList.remove('active'));
+        // 為被點擊的選單加上 active 狀態
+        this.classList.add('active');
+
+        // 取得被點擊選單的 data-target 屬性 (例如: ex2)
+        const targetId = this.getAttribute('data-target');
+
+        // 隱藏右側所有的內容區塊
+        contentSections.forEach(section => section.classList.remove('active'));
+        // 將對應 ID 的內容區塊顯示出來
+        document.getElementById(targetId).classList.add('active');
+      });
+    });
+
+    // 2. 處理首頁的「計數器」按鈕功能
+    const addBtn = document.getElementById('add-btn');
+    const counterValueDisplay = document.getElementById('counter-value');
+    let count = 20; // 初始值設定為 20
+
+    addBtn.addEventListener('click', function() {
+      count += 5; // 每次點擊加 5
+      counterValueDisplay.textContent = count; // 更新畫面上的數字
+    });
+  </script>
+</body>
+</html>
